@@ -1,0 +1,37 @@
+
+#root {
+  min-height: 100vh;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: Arial, sans-serif;
+  background: #ffffff;
+  color: #182338;
+}
+
+.website {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  background: #101E36;
+  color: white;
+}
+
+.website h1 {
+  font-size: 48px;
+  letter-spacing: 5px;
+}
+
+.website p {
+  margin-top: 12px;
+  color: #9bbfff;
+  font-size: 16px;
+}
