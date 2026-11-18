@@ -148,3 +148,37 @@
     width: 100%;
   }
 }
+
+.personalised-form-section {
+  margin-top: 25px;
+  padding-top: 25px;
+  border-top: 1px solid #E2E8F0;
+}
+
+.personalised-form-heading {
+  margin-bottom: 25px;
+}
+
+.personalised-form-heading h3,
+.ready-made-notice h3 {
+  color: #101E36;
+  margin-bottom: 10px;
+}
+
+.personalised-form-heading p,
+.ready-made-notice p {
+  color: #687386;
+  line-height: 1.7;
+}
+
+.ready-made-notice {
+  margin-top: 25px;
+  padding: 20px;
+  background: #F5F7FB;
+  border-radius: 10px;
+}
+
+.poster-submit:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
