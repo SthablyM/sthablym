@@ -3,6 +3,7 @@ import Navbar from './components/Navbar'
 import Services from './components/Services'
 import PosterStudio from './components/PosterStudio'
 import CustomPosterForm from './components/CustomPosterForm'
+import BusinessEnquiryForm from './components/BusinessEnquiryForm'
 import './App.css'
 
 function App() {
@@ -45,7 +46,11 @@ function App() {
         <section id="portfolio" className="portfolio-section">
           <div className="portfolio-heading">
             <p className="section-label">OUR WORK</p>
-            <h2>Ideas brought to <span>life.</span></h2>
+
+            <h2>
+              Ideas brought to <span>life.</span>
+            </h2>
+
             <p>
               Explore the digital experiences we create
               for businesses and growing brands.
@@ -54,6 +59,7 @@ function App() {
 
           <div className="portfolio-empty">
             <h3>Our portfolio is growing.</h3>
+
             <p>
               We're preparing examples of our website
               projects. Check back soon.
@@ -67,23 +73,9 @@ function App() {
         {/* CUSTOM POSTER REQUEST FORM */}
         <CustomPosterForm />
 
-        {/* GENERAL CONTACT */}
-        <section id="contact" className="contact-section">
-          <div className="contact-content">
-            <p className="section-label">LET'S WORK TOGETHER</p>
+        {/* GENERAL BUSINESS ENQUIRIES */}
+        <BusinessEnquiryForm />
 
-            <h2>Have a business idea?</h2>
-
-            <p>
-              Whether you need a website, branding or
-              creative designs, we'd love to hear from you.
-            </p>
-
-            <a href="mailto:hello@sthablym.co.za">
-              Get in touch ↗
-            </a>
-          </div>
-        </section>
       </main>
     </>
   )
