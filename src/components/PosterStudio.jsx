@@ -5,20 +5,20 @@ function PosterStudio() {
   return (
     <section id="poster-studio" className="poster-studio">
 
-      <div className="poster-heading">
-        <p className="poster-label">STHABLYM CREATIVE STUDIO</p>
+      <div className="custom-poster-heading">
+  <p className="poster-label">CUSTOM DESIGN ORDERS</p>
 
-        <h2>
-          Your business.
-          <span> Your message.</span>
-          Our creativity.
-        </h2>
+  <h2>
+    Let's create something
+    <span> for your business.</span>
+  </h2>
 
-        <p>
-          Professional promotional designs that help your
-          business communicate, connect and stand out.
-        </p>
-      </div>
+  <p>
+    Whether you need a promotional poster, business flyer,
+    menu or social media design, tell us what you have in mind.
+    We'll get in touch to discuss your request.
+  </p>
+</div>
 
       <div className="poster-intro">
         <div>
@@ -30,7 +30,7 @@ function PosterStudio() {
           </p>
         </div>
 
-        <a href="#contact" className="poster-button">
+        <a href="#custom-poster-form" className="poster-button">
           Request a custom design ↗
         </a>
       </div>
@@ -72,7 +72,9 @@ function PosterStudio() {
           Tell us about your business and let's create
           something that represents your brand.
         </p>
-        <a href="#contact">Start your design request ↗</a>
+        <a href="#custom-poster-form">
+          Start your design request ↗
+        </a>
       </div>
 
     </section>
