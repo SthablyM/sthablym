@@ -1,10 +1,23 @@
 
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import './CustomPosterForm.css'
 
-function CustomPosterForm() {
+function CustomPosterForm({ selectedDesign }) {
   const [files, setFiles] = useState([])
   const [submitted, setSubmitted] = useState(false)
+  const [category, setCategory] = useState('')
+
+  // Determine the selected purchase option and price
+  const purchaseType = selectedDesign?.purchaseType || ''
+  const price = purchaseType === 'Ready-made' ? 49 : purchaseType === 'Personalised' ? 99 : ''
+
+  // Automatically update the form when a poster is selected
+  useEffect(() => {
+    if (selectedDesign) {
+      setCategory(selectedDesign.category)
+      setSubmitted(false)
+    }
+  }, [selectedDesign])
 
   const handleSubmit = (event) => {
     event.preventDefault()
@@ -14,20 +27,83 @@ function CustomPosterForm() {
   return (
     <section id="custom-poster-form" className="custom-poster-section">
 
+      {/* FORM HEADING */}
       <div className="custom-poster-heading">
         <p className="poster-label">LET'S CREATE SOMETHING</p>
-        <h2>Request a <span>custom design.</span></h2>
+
+        <h2>
+          Complete your <span>poster order.</span>
+        </h2>
+
         <p>
-          Tell us about your business and the design you have
-          in mind. We'll use your details to understand your
-          requirements.
+          Tell us about your business and your design requirements.
+          We'll use your details to understand your order.
         </p>
       </div>
 
       <form className="poster-form" onSubmit={handleSubmit}>
 
+        {/* SELECTED POSTER */}
+        <div className="form-group">
+          <label htmlFor="selectedDesign">
+            Selected poster design
+          </label>
+
+          <input
+            id="selectedDesign"
+            name="selectedDesign"
+            type="text"
+            value={selectedDesign
+              ? selectedDesign.title
+              : 'No poster selected'}
+            readOnly
+          />
+        </div>
+
+        {/* PURCHASE TYPE */}
+        <div className="form-row">
+
+          <div className="form-group">
+            <label htmlFor="purchaseType">
+              Purchase option
+            </label>
+
+            <input
+              id="purchaseType"
+              name="purchaseType"
+              type="text"
+              value={purchaseType || 'Select an option from Poster Studio'}
+              readOnly
+            />
+          </div>
+
+          <div className="form-group">
+            <label htmlFor="posterPrice">
+              Poster price
+            </label>
+
+            <input
+              id="posterPrice"
+              name="posterPrice"
+              type="text"
+              value={price ? `R${price}.00` : 'Not selected'}
+              readOnly
+            />
+          </div>
+
+        </div>
+
+        {selectedDesign && (
+          <p className="form-disclaimer">
+            Your selection has been added automatically.
+            You can review your details before submitting.
+          </p>
+        )}
+
+        {/* CUSTOMER DETAILS */}
         <div className="form-group">
           <label htmlFor="customerName">Your name *</label>
+
           <input
             id="customerName"
             name="customerName"
@@ -38,8 +114,10 @@ function CustomPosterForm() {
         </div>
 
         <div className="form-row">
+
           <div className="form-group">
             <label htmlFor="email">Email address *</label>
+
             <input
               id="email"
               name="email"
@@ -51,6 +129,7 @@ function CustomPosterForm() {
 
           <div className="form-group">
             <label htmlFor="phone">WhatsApp number *</label>
+
             <input
               id="phone"
               name="phone"
@@ -59,10 +138,13 @@ function CustomPosterForm() {
               required
             />
           </div>
+
         </div>
 
+        {/* BUSINESS DETAILS */}
         <div className="form-group">
           <label htmlFor="businessName">Business name *</label>
+
           <input
             id="businessName"
             name="businessName"
@@ -73,15 +155,23 @@ function CustomPosterForm() {
         </div>
 
         <div className="form-row">
+
           <div className="form-group">
             <label htmlFor="category">Business category *</label>
-            <select id="category" name="category" required defaultValue="">
+
+            <select
+              id="category"
+              name="category"
+              value={category}
+              onChange={(event) => setCategory(event.target.value)}
+              required
+            >
               <option value="" disabled>Select category</option>
               <option>Beauty & Salon</option>
               <option>Food & Catering</option>
               <option>Events & Decorations</option>
               <option>Fashion & Clothing</option>
-              <option>Retail & Online Store</option>
+              <option>Retail & Online Stores</option>
               <option>Cleaning Services</option>
               <option>Other</option>
             </select>
@@ -89,7 +179,13 @@ function CustomPosterForm() {
 
           <div className="form-group">
             <label htmlFor="designType">Design required *</label>
-            <select id="designType" name="designType" required defaultValue="">
+
+            <select
+              id="designType"
+              name="designType"
+              required
+              defaultValue=""
+            >
               <option value="" disabled>Select design</option>
               <option>Promotional poster</option>
               <option>Business flyer</option>
@@ -100,10 +196,13 @@ function CustomPosterForm() {
               <option>Other</option>
             </select>
           </div>
+
         </div>
 
+        {/* DESIGN PREFERENCES */}
         <div className="form-group">
           <label htmlFor="colours">Preferred colours</label>
+
           <input
             id="colours"
             name="colours"
@@ -113,7 +212,10 @@ function CustomPosterForm() {
         </div>
 
         <div className="form-group">
-          <label htmlFor="requirements">Tell us about your design *</label>
+          <label htmlFor="requirements">
+            Tell us about your design *
+          </label>
+
           <textarea
             id="requirements"
             name="requirements"
@@ -123,8 +225,12 @@ function CustomPosterForm() {
           />
         </div>
 
+        {/* IMAGE UPLOAD */}
         <div className="form-group">
-          <label htmlFor="references">Upload your logo or reference images</label>
+          <label htmlFor="references">
+            Upload your logo or reference images
+          </label>
+
           <div className="upload-area">
             <input
               id="references"
@@ -136,7 +242,9 @@ function CustomPosterForm() {
                 setFiles(Array.from(event.target.files || []))
               }}
             />
+
             <p>Choose your images or business logo.</p>
+
             <span>PNG, JPG or other image formats</span>
           </div>
 
@@ -151,8 +259,9 @@ function CustomPosterForm() {
           )}
         </div>
 
+        {/* SUBMIT */}
         <button type="submit" className="poster-submit">
-          Submit design request ↗
+          Submit poster order ↗
         </button>
 
         {submitted && (
@@ -164,7 +273,8 @@ function CustomPosterForm() {
 
         <p className="form-disclaimer">
           Submitting this form does not make a payment or
-          confirm an order.
+          confirm an order. Payment and digital delivery
+          will be connected in a later development stage.
         </p>
 
       </form>

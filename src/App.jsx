@@ -1,12 +1,18 @@
 
+import { useState } from 'react'
+
 import Navbar from './components/Navbar'
 import Services from './components/Services'
+import Portfolio from './components/Portfolio'
 import PosterStudio from './components/PosterStudio'
 import CustomPosterForm from './components/CustomPosterForm'
 import BusinessEnquiryForm from './components/BusinessEnquiryForm'
+
 import './App.css'
 
 function App() {
+  const [selectedDesign, setSelectedDesign] = useState(null)
+
   return (
     <>
       <Navbar />
@@ -39,43 +45,20 @@ function App() {
           </div>
         </section>
 
-        {/* SERVICES SECTION */}
+        {/* SERVICES */}
         <Services />
 
-        {/* WEBSITE PORTFOLIO */}
-        <section id="portfolio" className="portfolio-section">
-          <div className="portfolio-heading">
-            <p className="section-label">OUR WORK</p>
-
-            <h2>
-              Ideas brought to <span>life.</span>
-            </h2>
-
-            <p>
-              Explore the digital experiences we create
-              for businesses and growing brands.
-            </p>
-          </div>
-
-          <div className="portfolio-empty">
-            <h3>Our portfolio is growing.</h3>
-
-            <p>
-              We're preparing examples of our website
-              projects. Check back soon.
-            </p>
-          </div>
-        </section>
+        {/* PORTFOLIO */}
+        <Portfolio />
 
         {/* POSTER STUDIO */}
-        <PosterStudio />
+        <PosterStudio onSelectDesign={setSelectedDesign} />
 
         {/* CUSTOM POSTER REQUEST FORM */}
-        <CustomPosterForm />
+        <CustomPosterForm selectedDesign={selectedDesign} />
 
         {/* GENERAL BUSINESS ENQUIRIES */}
         <BusinessEnquiryForm />
-
       </main>
     </>
   )
