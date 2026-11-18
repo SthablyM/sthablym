@@ -1,5 +1,6 @@
 import Navbar from './components/Navbar'
 import Services from './components/Services'
+import PosterStudio from './components/PosterStudio'
 import './App.css'
 
 function App() {
@@ -37,6 +38,7 @@ function App() {
 
         {/* SERVICES SECTION */}
         <Services />
+        <PosterStudio />
 
       </main>
     </>
