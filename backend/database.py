@@ -1,7 +1,9 @@
 
 import sqlite3
+from pathlib import Path
 
-DATABASE = "sthablym.db"
+# Always use the database inside the backend folder
+DATABASE = Path(__file__).resolve().parent / "sthablym.db"
 
 
 def get_db_connection():
@@ -13,6 +15,7 @@ def get_db_connection():
 def create_tables():
     connection = get_db_connection()
 
+    # Customer orders
     connection.execute("""
         CREATE TABLE IF NOT EXISTS orders (
             id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -31,10 +34,34 @@ def create_tables():
         )
     """)
 
+    # Files attached to customer orders
+    connection.execute("""
+        CREATE TABLE IF NOT EXISTS order_attachments (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            order_id INTEGER NOT NULL,
+            original_filename TEXT NOT NULL,
+            stored_filename TEXT NOT NULL,
+            uploaded_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+            FOREIGN KEY (order_id)
+            REFERENCES orders (id)
+            ON DELETE CASCADE
+        )
+    """)
+
+    # Administrator accounts
+    connection.execute("""
+        CREATE TABLE IF NOT EXISTS admin_users (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            username TEXT NOT NULL UNIQUE,
+            password_hash TEXT NOT NULL,
+            created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+        )
+    """)
+
     connection.commit()
     connection.close()
 
 
 if __name__ == "__main__":
     create_tables()
-    print("STHABLYM database created successfully!")
+    print("STHABLYM database and attachment tables created successfully!")

@@ -22,3 +22,16 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
+# Private environment variables
+.env
+.env.*
+!.env.example
+
+# Python environment
+venv/
+__pycache__/
+*.pyc
+
+# Database and customer uploads
+backend/*.db
+backend/uploads/

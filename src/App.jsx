@@ -1,5 +1,5 @@
 
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 
 import Navbar from './components/Navbar'
 import Services from './components/Services'
@@ -7,18 +7,99 @@ import Portfolio from './components/Portfolio'
 import PosterStudio from './components/PosterStudio'
 import CustomPosterForm from './components/CustomPosterForm'
 import BusinessEnquiryForm from './components/BusinessEnquiryForm'
+import AdminDashboard from './components/AdminDashboard'
+import AdminLogin from './components/AdminLogin'
 
 import './App.css'
 
 function App() {
   const [selectedDesign, setSelectedDesign] = useState(null)
 
+  const [adminUser, setAdminUser] = useState(null)
+  const [checkingSession, setCheckingSession] = useState(true)
+  const handleAdminLogout = async () => {
+  try {
+    const response = await fetch(
+      'http://localhost:5000/api/admin/logout',
+      {
+        method: 'POST',
+        credentials: 'include'
+      }
+    )
+
+    if (!response.ok) {
+      throw new Error('Could not log out. Please try again.')
+    }
+
+    setAdminUser(null)
+
+  } catch (error) {
+    alert(error.message)
+  }
+}
+
+  const isAdminRoute =
+    window.location.pathname.replace(/\/+$/, '') === '/admin'
+
+  // Check whether an administrator is already logged in
+  useEffect(() => {
+    if (!isAdminRoute) {
+      setCheckingSession(false)
+      return
+    }
+
+    const checkAdminSession = async () => {
+      try {
+        const response = await fetch(
+          'http://localhost:5000/api/admin/me',
+          {
+            credentials: 'include'
+          }
+        )
+
+        const data = await response.json()
+
+        if (response.ok && data.authenticated) {
+          setAdminUser(data.username)
+        }
+      } catch (error) {
+        console.error('Could not verify admin session:', error)
+      } finally {
+        setCheckingSession(false)
+      }
+    }
+
+    checkAdminSession()
+  }, [isAdminRoute])
+
+  // Admin login screen and dashboard
+  if (isAdminRoute) {
+
+    if (checkingSession) {
+      return (
+        <div className="admin-loading">
+          Checking administrator access...
+        </div>
+      )
+    }
+
+    if (!adminUser) {
+      return (
+        <AdminLogin
+          onLogin={(username) => setAdminUser(username)}
+        />
+      )
+    }
+
+    return <AdminDashboard onLogout={handleAdminLogout} />
+  }
+
+  // Normal public website
   return (
     <>
       <Navbar />
 
       <main>
-        {/* HERO SECTION */}
         <section id="home" className="hero">
           <div className="hero-content">
             <p className="hero-label">YOUR DIGITAL PARTNER</p>
@@ -45,19 +126,14 @@ function App() {
           </div>
         </section>
 
-        {/* SERVICES */}
         <Services />
 
-        {/* PORTFOLIO */}
         <Portfolio />
 
-        {/* POSTER STUDIO */}
         <PosterStudio onSelectDesign={setSelectedDesign} />
 
-        {/* CUSTOM POSTER REQUEST FORM */}
         <CustomPosterForm selectedDesign={selectedDesign} />
 
-        {/* GENERAL BUSINESS ENQUIRIES */}
         <BusinessEnquiryForm />
       </main>
     </>
